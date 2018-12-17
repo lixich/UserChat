@@ -1,1 +1,2 @@
 # UserChat
+python main.py
