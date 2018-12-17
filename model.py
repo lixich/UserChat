@@ -1,39 +1,5 @@
 from flask import request
-'''
-from main import db
 from sqlalchemy import inspect
-
-def object_as_dict(obj):
-    return {c.key: getattr(obj, c.key)
-            for c in inspect(obj).mapper.column_attrs}
-
-
-class User(db.Model):
-    __tablename__ = 'User'
-    Id = db.Column(db.Integer, primary_key=True,  autoincrement=True)
-    Username = db.Column(db.String, nullable=False, unique=True)
-    Password = db.Column(db.String, nullable=False)
-    def __repr__(self):
-        return "<Username: {}>".format(self.Username)
-    def __init__(self, Username, Password):
-        self.Username = Username
-        self.Password = Password
-'''
-
-#todo database
-#user_set = list(map(object_as_dict, db.session.query(User)))
-user_set = [
-    {
-        'Id': 1,
-        'Username': '1',
-        'Password': '1',
-    }
-]
-user_class = {
-    'Id': int,
-    'Username': str,
-    'Password': str
-}
 
 #todo database
 message_set = [
