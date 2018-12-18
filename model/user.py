@@ -7,20 +7,19 @@ auth = HTTPBasicAuth()
 app_user = Blueprint('', __name__)
 db = SQLAlchemy()
 
-
 class User(db.Model):
     __tablename__ = 'User'
     Id = db.Column(db.Integer, primary_key=True,  autoincrement=True)
     Username = db.Column(db.String, nullable=False, unique=True)
     Password = db.Column(db.String, nullable=False)
     def __repr__(self):
-        return "<Username: {}>".format(self.Username)
+        return f"<Username: {self.Username}>"
     def __init__(self, Username, Password):
         self.Username = Username
         self.Password = Password
 
 # security
-
+# todo refactoring
 def make_public_user(user):
     new_user = {}
     new_user['uri'] = url_for('.get_user', user_id = user.Id, _external = True)
@@ -48,8 +47,7 @@ def get_password(username):
         return None
     return user.Password
 
-# all
-
+# without id
 @app_user.route('/', methods = ['GET'])
 @auth.login_required
 def login_required():
@@ -69,7 +67,6 @@ def create_user():
     return jsonify(make_public_user(user))
 
 # by id
-
 @app_user.route('/<int:user_id>', methods = ['GET'])
 @auth.login_required
 def get_user(user_id):
