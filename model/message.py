@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 import asyncio
 import websockets
+import config
 
 app_message = Blueprint('message', __name__)
 db = SQLAlchemy()
@@ -67,6 +68,6 @@ def create_message():
     return jsonify(make_dict_message(message)), 201
 
 async def send_messsage(message):
-    async with websockets.connect('ws://localhost:1337') as ws:
+    async with websockets.connect(config.WS_HOST) as ws:
         await ws.send(message)
         greeting = await ws.recv()
