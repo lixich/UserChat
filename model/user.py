@@ -17,10 +17,16 @@ class User(db.Model):
     def __init__(self, Username, Password):
         self.Username = Username
         self.Password = Password
+    def __iter__(self):
+        values = vars(self)
+        for attr in self.__mapper__.columns.keys():
+            if attr in values:
+                yield attr, values[attr]
 
 # security
 # todo refactoring
 def make_public_user(user):
+    #new_user = dict(user)
     new_user = {}
     new_user['uri'] = url_for('.get_user', user_id = user.Id, _external = True)
     new_user['Id'] = user.Id

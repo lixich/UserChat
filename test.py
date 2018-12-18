@@ -76,7 +76,7 @@ class test_integrations_user(TestCase):
                                 headers=headers,
                                 content_type='application/json',
                                 data=json.dumps(input))
-        actual = response.get_data().decode()
+        actual = json.loads(response.get_data().decode())
         self.assertTrue('Id' in actual)
 
 class test_integrations_message(TestCase):
@@ -119,5 +119,5 @@ class test_integrations_message(TestCase):
                                 headers=headers,
                                 content_type='application/json',
                                 data=json.dumps(input_query))
-        actual = response.get_data().decode()
+        actual = json.loads(response.get_data().decode())
         self.assertTrue('Id' in actual)

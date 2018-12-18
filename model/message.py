@@ -3,6 +3,8 @@ from model.user import auth, get_user_id
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 import json
+import asyncio
+import websockets
 
 app_message = Blueprint('message', __name__)
 db = SQLAlchemy()
@@ -19,9 +21,15 @@ class Message(db.Model):
         self.Text = Text
         self.Time = str(datetime.now())
         self.UserId = UserId
+    def __iter__(self):
+        values = vars(self)
+        for attr in self.__mapper__.columns.keys():
+            if attr in values:
+                yield attr, values[attr]
 
 # todo refactoring
 def make_dict_message(message):
+    #dict_message = dict(message)
     dict_message = {}
     dict_message['Id'] = message.Id
     dict_message['Text'] = message.Text
@@ -51,6 +59,14 @@ def create_message():
     if not request.json:
         abort(400)
     message = Message(request.json['Text'], get_user_id(auth.username()))
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(send_messsage(request.json['Text']))
     db.session.add(message)
     db.session.commit()
     return jsonify(make_dict_message(message)), 201
+
+async def send_messsage(message):
+    async with websockets.connect('ws://localhost:1337') as ws:
+        await ws.send(message)
+        greeting = await ws.recv()

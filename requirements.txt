@@ -4,3 +4,4 @@ flask_httpauth
 flask_sqlalchemy
 pypiwin32
 twisted
+websockets
