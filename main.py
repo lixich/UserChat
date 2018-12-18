@@ -9,14 +9,16 @@ CORS(app, supports_credentials=True)
 
 def register_blueprints():
     from model.user import app_user, db as db_user
-    from model.message import app_message
+    from model.message import app_message, db as db_message
     app.register_blueprint(app_user, url_prefix='/user')
     app.register_blueprint(app_message, url_prefix='/message')
     app.config["SQLALCHEMY_DATABASE_URI"] = config.SQLALCHEMY_DATABASE_URI
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db_user.init_app(app)
+    db_message.init_app(app)
     with app.app_context():
         db_user.create_all()
+        db_message.create_all()
 
 register_blueprints()
 
