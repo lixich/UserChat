@@ -90,6 +90,5 @@ def update_user(user_id):
 @app_user.route('/<int:user_id>', methods=['DELETE'])
 @auth.login_required
 def delete_user(user_id):
-    user = User.query.filter_by(Id=user_id).first()
-    #todo remove
+    User.query.filter_by(id=user_id).delete()
     return jsonify({'Result': False})
