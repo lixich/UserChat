@@ -97,4 +97,4 @@ def update_user(user_id):
 @auth.login_required
 def delete_user(user_id):
     User.query.filter_by(id=user_id).delete()
-    return jsonify({'Result': False})
+    return jsonify({'Result': True})
