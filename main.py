@@ -7,6 +7,7 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
 def register_blueprints():
+    
     from model.user import app_user, db as db_user
     from model.message import app_message, db as db_message
     app.register_blueprint(app_user, url_prefix='/user')
